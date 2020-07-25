@@ -1,5 +1,4 @@
 import React from 'react';
-import './App.css';
 
 import Layout from './Layout/Layout';
 import InputForm from './InputForm/InputForm';
@@ -7,7 +6,7 @@ import InputForm from './InputForm/InputForm';
 function App() {
   return (
     <Layout>
-        <InputForm/>
+        <InputForm />
     </Layout>
   );
 }

@@ -1,41 +1,78 @@
-import React, {useReducer, useState} from "react";
+import React from "react";
+import { Form, Button, Container, Row, Col } from 'react-bootstrap';
+import { Formik } from 'formik';
+import * as yup from 'yup';
 
-import Form from 'react-bootstrap/Form';
-import Container from "react-bootstrap/cjs/Container";
-import Button from "react-bootstrap/cjs/Button";
-import { Row, Col } from 'react-bootstrap';
+const formSchema = yup.object().shape({
+    firstName: yup.string()
+        .min(2, 'Name is Too short')
+        .max(15, 'Name is Too long')
+        .required('required'),
+    secondName: yup.string()
+        .min(2, 'Name is Too short')
+        .max(15, 'Name is Too long')
+        .required('required'),
+    thirdName: yup.string()
+        .min(2, 'Name is Too short')
+        .max(15, 'Name is Too long')
+        .required('required'),
+    lastName: yup.string()
+        .min(2, 'Name is Too short')
+        .max(15, 'Name is Too long')
+        .required('required'),
+})
 
 const InputForm = () => {
-    const [FirstName, SetFirstName] = useState('')
-    const [SecondName, SetSecondNAme] = useState('')
-    const [ThirdName, SetThirdName] = useState('')
-    const [LastName, SetLastName] = useState('')
-    const [PhoneNumber, SetPhoneNumber] = useState('')
-    const [IBANNumber, SetIBANNumber] = useState('')
-    const Picture = React.createRef()
-
-    const submitHandler = event => {
-        event.preventDefault();
-        let formData = {
-            FirstName, SecondName, ThirdName, LastName, PhoneNumber, IBANNumber, Picture
-        }
-        console.log(formData)
-    }
 
     return (
         <Container>
-        <Form>
+        <Formik initialValues={{
+            firstName:'',
+            secondName:'',
+            thirdName:'',
+            lastName:'',
+            phoneNumber:'',
+            IBANNumber:'',
+            picture: React.createRef(),
+        }}
+        validationSchema={formSchema}
+        onSubmit={console.log}
+        >
+             {({
+        handleSubmit,
+        handleChange,
+        handleBlur,
+        values,
+        touched,
+        isValid,
+        errors,
+      }) => (
+        <Form onSubmit={handleSubmit}>
             <Row>
                 <Col>
                     <Form.Group>
                         <Form.Label>First Name</Form.Label>
-                        <Form.Control type="text" placeholder="First Name" value={FirstName} onChange={event => SetFirstName(event.target.value)} />
+                        <Form.Control 
+                            type="text" 
+                            name='firstName' 
+                            placeholder="First Name" 
+                            value={values.firstName} 
+                            onChange={handleChange}
+                            isInvalid={errors.firstName} />
+                        <Form.Control.Feedback type='invalid'>{errors.firstName}</Form.Control.Feedback>
                     </Form.Group>
                 </Col>
                 <Col>
                     <Form.Group>
                         <Form.Label>Second Name</Form.Label>
-                        <Form.Control type="text" placeholder="Second Name" value={SecondName} onChange={event => SetSecondNAme(event.target.value)} />
+                        <Form.Control 
+                            type="text" 
+                            name='secondName' 
+                            placeholder="Second Name" 
+                            value={values.secondName} 
+                            onChange={handleChange}
+                            isInvalid={errors.secondName} />
+                        <Form.Control.Feedback type='invalid'>{errors.secondName}</Form.Control.Feedback>
                     </Form.Group>
                 </Col>
             </Row>
@@ -43,31 +80,49 @@ const InputForm = () => {
                 <Col>
                     <Form.Group>
                         <Form.Label>Third Name</Form.Label>
-                        <Form.Control type="text" placeholder="Third Name" value={ThirdName} onChange={event => SetThirdName(event.target.value)}/>
+                        <Form.Control 
+                        type="text" 
+                        name='thirdName' 
+                        placeholder="Third Name" 
+                        value={values.thirdName} 
+                        onChange={handleChange} 
+                        isInvalid={errors.thirdName}/>
+                        <Form.Control.Feedback type='invalid'>{errors.thirdName}</Form.Control.Feedback>
                     </Form.Group>
                 </Col>
                 <Col>
                     <Form.Group>
                         <Form.Label>Last Name</Form.Label>
-                        <Form.Control type="text" placeholder="Last Name" value={LastName} onChange={event => SetLastName(event.target.value)} />
+                        <Form.Control 
+                        type="text" 
+                        name='lastName' 
+                        placeholder="Last Name" 
+                        value={values.lastName} 
+                        onChange={handleChange} 
+                        isInvalid={errors.lastName} />
+                        <Form.Control.Feedback type='invalid'>{errors.lastName}</Form.Control.Feedback>
                     </Form.Group>
                 </Col>
             </Row>
             <Form.Group>
                 <Form.Label>Phone Number</Form.Label>
-                <Form.Control type="number" placeholder="Phone Number" value={PhoneNumber} onChange={event => SetPhoneNumber(event.target.value)} />
+                <Form.Control type="number" name='phoneNumber' placeholder="Phone Number" value={values.phoneNumber} onChange={handleChange} />
+                <Form.Control.Feedback>{errors.phoneNumber}</Form.Control.Feedback>
             </Form.Group>
             <Form.Group>
                 <Form.Label>IBAN Numberr</Form.Label>
-                <Form.Control type="text" placeholder="IBAN Number" value={IBANNumber} onChange={event => SetIBANNumber(event.target.value)} />
+                <Form.Control type="text" name='IBANNumber' placeholder="IBAN Number" value={values.IBANNumber} onChange={handleChange} />
+                <Form.Control.Feedback>{errors.IBANNumber}</Form.Control.Feedback>
             </Form.Group>
             <Form.Group>
-                <Form.File id="portrait" label="Your Picture" ref={Picture} />
+                <Form.File id="portrait" label="Your Picture" ref={values.picture} />
             </Form.Group>
-            <Button variant="primary" type="submit" onClick={submitHandler}>
+            <Button variant="primary" type="submit">
                 Submit
             </Button>
         </Form>
+      )}
+        </Formik>
         </Container>
     )
 }
