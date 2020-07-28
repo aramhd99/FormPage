@@ -7,19 +7,24 @@ const formSchema = yup.object().shape({
     firstName: yup.string()
         .min(2, 'Name is Too short')
         .max(15, 'Name is Too long')
-        .required('required'),
+        .required('This field is required'),
     secondName: yup.string()
         .min(2, 'Name is Too short')
         .max(15, 'Name is Too long')
-        .required('required'),
+        .required('This field is required'),
     thirdName: yup.string()
         .min(2, 'Name is Too short')
         .max(15, 'Name is Too long')
-        .required('required'),
+        .required('This field is required'),
     lastName: yup.string()
         .min(2, 'Name is Too short')
         .max(15, 'Name is Too long')
-        .required('required'),
+        .required('This field is required'),
+    phoneNumber: yup.number()
+        .required('This field is required'),
+    IBANNumber: yup.string()
+        .required('This field is required')
+        .trim()
 })
 
 const InputForm = () => {
@@ -106,13 +111,27 @@ const InputForm = () => {
             </Row>
             <Form.Group>
                 <Form.Label>Phone Number</Form.Label>
-                <Form.Control type="number" name='phoneNumber' placeholder="Phone Number" value={values.phoneNumber} onChange={handleChange} />
-                <Form.Control.Feedback>{errors.phoneNumber}</Form.Control.Feedback>
+                <Form.Control
+                    type="number"
+                    name='phoneNumber'
+                    placeholder="Phone Number"
+                    value={values.phoneNumber}
+                    onChange={handleChange}
+                    isInvalid={errors.phoneNumber}
+                />
+                <Form.Control.Feedback type='invalid'>{errors.phoneNumber}</Form.Control.Feedback>
             </Form.Group>
             <Form.Group>
-                <Form.Label>IBAN Numberr</Form.Label>
-                <Form.Control type="text" name='IBANNumber' placeholder="IBAN Number" value={values.IBANNumber} onChange={handleChange} />
-                <Form.Control.Feedback>{errors.IBANNumber}</Form.Control.Feedback>
+                <Form.Label>IBAN Number</Form.Label>
+                <Form.Control
+                    type="text"
+                    name='IBANNumber'
+                    placeholder="IBAN Number"
+                    value={values.IBANNumber}
+                    onChange={handleChange}
+                    isInvalid={errors.IBANNumber}
+                />
+                <Form.Control.Feedback type='invalid'>{errors.IBANNumber}</Form.Control.Feedback>
             </Form.Group>
             <Form.Group>
                 <Form.File id="portrait" label="Your Picture" ref={values.picture} />
